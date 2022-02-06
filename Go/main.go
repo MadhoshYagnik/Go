@@ -6,6 +6,8 @@ package main
 import (
 	"bytes"
 	"fmt"
+	"regexp"
+	"sort"
 	"strings"
 
 	"github.com/ledongthuc/pdf"
@@ -29,7 +31,10 @@ func readPdf(path string) (string, error) {
 	}
 	buf.ReadFrom(b)
 
-	//
+	reg, err := regexp.Compile("[^a-zA-Z0-9]+")
+	if err != nil {
+		return "", err
+	}
 	content := reg.ReplaceAllString(buf.String(), " ")
 	return content, nil
 }
@@ -45,7 +50,18 @@ func wordCount(content string) []wordStruct {
 	for word := range wordMap {
 		words = append(words, word)
 	}
-	//
+	// sorting the words before counting their occurrences
+	sort.Slice(words, func(i, j int) bool {
+		return wordMap[words[i]] > wordMap[words[j]]
+	})
+
+	topTenWords := make([]wordStruct, 0, 10)
+
+	for i := 0; i < 10; i++ {
+		//fmt.Println(words[i], " => "wordMap[words[i]])
+		topTenWords = append(topTenWords, wordStruct{words[i], wordMap[words[i]]})
+	}
+	return topTenWords
 }
 
 func main() {
