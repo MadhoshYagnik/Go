@@ -1,6 +1,3 @@
-// Please create a small service that accepts as input a body of text, such as that from a book, and
-// return the top ten most-used words along with how many times they occur in the text.
-
 package main
 
 import (
@@ -25,7 +22,7 @@ func readPdf(path string) (string, error) {
 	}
 	defer f.Close()
 	var buf bytes.Buffer
-	b, err := r.GetPlainText() //ignoring fonts and styles
+	b, err := r.GetPlainText()
 	if err != nil {
 		return "", err
 	}
@@ -40,7 +37,7 @@ func readPdf(path string) (string, error) {
 }
 
 func wordCount(content string) []wordStruct {
-	wordSlice := strings.Fields(content) // "a b cd"=> ["a","b","cd"]
+	wordSlice := strings.Fields(content)
 	wordMap := make(map[string]int)
 
 	for i := 0; i < len(wordSlice); i++ {
