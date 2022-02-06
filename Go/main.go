@@ -40,6 +40,7 @@ func wordCount(content string) []wordStruct {
 	wordSlice := strings.Fields(content)
 	wordMap := make(map[string]int)
 
+	// to lower character
 	for i := 0; i < len(wordSlice); i++ {
 		wordMap[strings.ToLower(wordSlice[i])] += 1
 	}
@@ -48,7 +49,7 @@ func wordCount(content string) []wordStruct {
 		words = append(words, word)
 	}
 	// sorting the words before counting their occurrences
-	sort.Slice(words, func(i, j int) bool {
+	sort.SliceStable(words, func(i, j int) bool {
 		return wordMap[words[i]] > wordMap[words[j]]
 	})
 
@@ -62,7 +63,7 @@ func wordCount(content string) []wordStruct {
 }
 
 func main() {
-	content, err := readPdf("pdf_sample.pdf")
+	content, err := readPdf("pdf-sample.pdf")
 	if err != nil {
 		panic(err)
 	}
