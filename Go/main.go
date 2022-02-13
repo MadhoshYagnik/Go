@@ -16,6 +16,9 @@ import (
 var tpl *template.Template
 var words string
 
+type out1 []string
+type out2 []string
+
 func init() {
 	tpl = template.Must(template.ParseGlob("templates/*.gohtml"))
 }
@@ -38,14 +41,19 @@ func processor(w http.ResponseWriter, r *http.Request) {
 	words = text
 
 	out := topten(words)
-	fmt.Println(out)
 	outWithRemoval := toptenusestopwords(words)
-	fmt.Println(outWithRemoval)
+	out1 = out
+	out2 = outWithRemoval
 
-	// fmt.Println("hello ", text)
 }
 
 // word counter
+func (m out1) ServeHTTP(res http.ResponseWriter, req *http.Request) {
+	fmt.Fprintln(res)
+}
+func (m out2) ServeHTTP(res http.ResponseWriter, req *http.Request) {
+	fmt.Fprintln(res)
+}
 
 func topten(words string) []string {
 	input := strings.Fields(words)
@@ -126,8 +134,13 @@ func toptenusestopwords(words string) []string {
 }
 
 func main() {
+	var h out1
+	var k out2
+
 	http.HandleFunc("/", index)
 	http.HandleFunc("/process", processor)
 	http.ListenAndServe(":8080", nil)
+	http.ListenAndServe(":8080", h)
+	http.ListenAndServe(":8080", k)
 
 }
