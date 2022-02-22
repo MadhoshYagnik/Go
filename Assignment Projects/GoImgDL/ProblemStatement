@@ -1,1 +1,21 @@
 Problem: Given a URL download all images; Try to do image download concurrently
+
+Images Download Tool written in Go
+Solution:
+/*Download all images from a specific webpage*/ 
+
+Working: 
+steps to test the idea :
+1. cURL the webpage
+2. get the links of all Images
+3. download all images into a known directory (locally)
+
+<!-- Notes :
+- regex for all jpg and png files: `[a-zA-Z0-9/_.:-]+.(jpg|png)`
+- get all image files into array, then loop for download them all
+- if the file starts with `//` then replace it with `https://` or add `http:` before `//`. -->
+
+Steps to use:
+1) Build main.go /*go build main.go*/
+2) ./main get <url> /*url used in code is - https://www.pinterest.com/BootheDeafKitty/beautiful-and-special-cats-of-pintrest/*/
+3) Images will be downloaded to saved_images directory 
