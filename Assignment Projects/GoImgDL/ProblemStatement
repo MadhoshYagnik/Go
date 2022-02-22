@@ -19,3 +19,4 @@ Steps to use:
 1) Build main.go /*go build main.go*/
 2) ./main get <url> /*url used in code is - https://www.pinterest.com/BootheDeafKitty/beautiful-and-special-cats-of-pintrest/*/
 3) Images will be downloaded to saved_images directory 
+4) testdata.html isin't required by the project, just used it to find jpg and png in website html code, using regexp 
