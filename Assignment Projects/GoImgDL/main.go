@@ -8,9 +8,12 @@ import (
 	"path/filepath"
 	"regexp"
 	"strings"
+	"sync"
 
 	"github.com/spf13/cobra"
 )
+
+var wg sync.WaitGroup
 
 func main() {
 	cmd := &cobra.Command{
@@ -18,10 +21,15 @@ func main() {
 		Short:        "Image Downloader",
 		SilenceUsage: true,
 	}
-	cmd.AddCommand(getVersion(), getFileFromUrl())
+	// cmd.AddCommand(getVersion(), getFileFromUrl())
+	wg.Add(1)
+	getVersion()
+	getFileFromUrl()
+	wg.Wait()
 	if err := cmd.Execute(); err != nil {
 		os.Exit(1)
 	}
+
 }
 
 func getVersion() *cobra.Command {
@@ -65,6 +73,7 @@ func getFileFromUrl() *cobra.Command {
 				}
 				fileName := filepath.Base(arr[i])
 				if err := DownloadFile(fileName, arr[i]); err != nil {
+					wg.Add(1)
 					panic(err)
 				}
 				cmd.Println("downloaded image : ", arr[i])
@@ -72,6 +81,7 @@ func getFileFromUrl() *cobra.Command {
 			return nil
 		},
 	}
+
 }
 
 func DownloadFile(filepath string, url string) error {
@@ -92,5 +102,7 @@ func DownloadFile(filepath string, url string) error {
 
 	// Write the body to file
 	_, err = io.Copy(out, resp.Body)
+	wg.Done()
 	return err
+
 }
