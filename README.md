@@ -1,7 +1,3 @@
-Certainly! Here's a separate documentation for the Go code provided earlier, explaining its purpose, usage, and functionalities:
-
----
-
 ## Image Downloader Tool (imgdl) Documentation
 
 ### Purpose
@@ -55,6 +51,3 @@ imgdl [command] [URL]
 ### Contributing and Enhancements
 
 Contributions to this tool are welcome. Feel free to contribute by submitting bug reports, feature requests, or enhancements to the GitHub repository.
-
-
----
